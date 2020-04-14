@@ -7,7 +7,7 @@ const forecast = (latitude, longitude, callback) => {
     request ({url: url, json:true}, (error, response) => {
         if (error) {
             callback ('Culdn\'t reach the Weather Forecast Service.', undefined);
-        } else if (!response.body.current.temperature){
+        } else if (!response.body.error){
             callback('Couldn\'t Access Forecast Data for the Location, try a different area.', undefined);
         } else {
             callback(undefined, {
