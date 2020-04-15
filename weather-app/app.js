@@ -52,16 +52,16 @@ geocode.geocode(forecast.town, (error, data) => {
     if (error) {
         return console.log('Error: ' + error);
     } 
-    forecast(data.latitude, data.longitude, (error, data) => {
+    forecast(data.latitude, data.longitude, (error, forecastData) => {
 
         if (error) {
             return console.log('Error: ' + error);
         } 
-        
-        console.log('Location: ' + data.location + ', ' + data.country + '.')
-        console.log('Temperature: ' + data.temperature + ' C.');
-        console.log('Wind Speed: ', + data.wind_speed + ' Km/h');
-        console.log('UV Index: ' + data.uv_index);
+
+        console.log('Location: ' + data.location + '.')
+        console.log('Temperature: ' + forecastData.temperature + ' C.');
+        console.log('Wind Speed: ', + forecastData.wind_speed + ' Km/h');
+        console.log('UV Index: ' + forecastData.uv_index);
         
         
     });
