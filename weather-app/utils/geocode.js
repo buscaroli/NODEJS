@@ -3,10 +3,10 @@ const request = require('request');
 const urlGeolocation = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
 const geoKey = 'pk.eyJ1IjoibW1vbnR5eTc4IiwiYSI6ImNrOTA0OGV3aDBrY20za2xjZzVvdnljdDcifQ.ZMTIRSb1979wtqmdVpt0Lg';
 
-const town = process.argv[2];
+
 
 const geocode = (address, callback) => {
-    const url = urlGeolocation + encodeURIComponent(town) + '.json?access_token=' + geoKey;
+    const url = urlGeolocation + encodeURIComponent(address) + '.json?access_token=' + geoKey;
     // const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(address) + '.json?access_token=pk.eyJ1IjoibW1vbnR5eTc4IiwiYSI6ImNrOTA0OGV3aDBrY20za2xjZzVvdnljdDcifQ.ZMTIRSb1979wtqmdVpt0Lg';
     // const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Bournemouth.json?access_token=pk.eyJ1IjoibW1vbnR5eTc4IiwiYSI6ImNrOTA0OGV3aDBrY20za2xjZzVvdnljdDcifQ.ZMTIRSb1979wtqmdVpt0Lg';
     request ({url, json: true}, (error, { body }) => {
@@ -27,5 +27,4 @@ const geocode = (address, callback) => {
 
 
 
-module.exports = {geocode,
-                 town};
+module.exports = geocode;

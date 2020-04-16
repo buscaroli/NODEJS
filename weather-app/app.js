@@ -20,8 +20,13 @@
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
+const town = process.argv[2];
 
-geocode.geocode(forecast.town, (error, { latitude, longitude, location }) => {
+if (!town) {
+    return console.log('Please provide a location. Ex: node app.js "location name".');
+}
+
+geocode(town, (error, { latitude, longitude, location }) => {
     if (error) {
         return console.log('Error: ' + error);
     } 
