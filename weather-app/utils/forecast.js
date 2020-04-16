@@ -4,18 +4,18 @@ const urlWeather = 'http://api.weatherstack.com/current?access_key=da6e6792949a0
 
 const forecast = (latitude, longitude, callback) => {
     const url = urlWeather + '&query=' + latitude + ',' + longitude;
-    request ({url: url, json:true}, (error, response) => {
+    request ({url, json:true}, (error, { body }) => {
         if (error) {
             callback ('Culdn\'t reach the Weather Forecast Service.', undefined);
-        } else if (response.body.error){
+        } else if (body.error){
             callback('Couldn\'t Access Forecast Data for the Location, try a different area.', undefined);
         } else {
             callback(undefined, {
-                    location:       response.body.location.name,
-                    country:        response.body.location.country,
-                    temperature:    response.body.current.temperature,
-                    wind_speed:     response.body.current.wind_speed,
-                    uv_index:       response.body.current.uv_index
+                    location:       body.location.name,
+                    country:        body.location.country,
+                    temperature:    body.current.temperature,
+                    wind_speed:     body.current.wind_speed,
+                    uv_index:       body.current.uv_index
                     })
         }
     });
