@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script> 
 </head>
 <body>
     {{>navbar}}
@@ -14,11 +13,18 @@
     {{>header}}
     
     <div id="main">
-        <h4>Welcome to the HomePage of my Weather App.</h4>
-        <p>New exciting functions yet to come, stay tuned!</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam perspiciatis ipsum reiciendis possimus. Odit rerum error vel assumenda repellat ullam rem minus aperiam eaque non, incidunt iste, temporibus totam eligendi deleniti eius nobis doloribus architecto! Tempore vitae culpa repellat necessitatibus vero, facere error asperiores eligendi, nemo dolorem minus voluptate nobis dolorum! Porro adipisci, ipsam facilis deserunt minima labore possimus iusto magni architecto ullam, necessitatibus a officiis perspiciatis perferendis unde incidunt! Voluptas sit, molestiae necessitatibus in saepe sapiente accusantium cupiditate commodi magnam. Sint, animi omnis tenetur suscipit magni delectus voluptate. Similique reprehenderit omnis libero vitae esse ipsam odit ad qui repellat fuga numquam perferendis quas necessitatibus, veritatis autem quisquam vero. Dignissimos doloribus commodi ipsam nesciunt, molestiae qui deleniti obcaecati nostrum cumque ab corporis, officia voluptatem magni hic eaque dolore? Explicabo quasi, suscipit asperiores veritatis qui repellat laudantium maiores deserunt ab fugit vel odit doloribus quas voluptatibus modi aut alias tenetur? Ut voluptatem facere deleniti cumque, esse officiis sunt quod sed similique sapiente nesciunt, cupiditate deserunt libero assumenda dignissimos adipisci expedita modi iste dolorum pariatur officia. Laudantium dolor, illum laborum odit iste molestiae beatae consequatur ex ea dignissimos ducimus vero iure minima sequi. Nostrum repellendus, nisi corporis animi explicabo harum. Neque, quibusdam?</p>
+        <h4>Enter the location below:</h4>
+        <form>
+            <input placeholder="Location" required>
+            <button>Search</button>
+        </form>
+
+        <p id="msg1"></p>
+        <p id="msg2"></p>
     </div>
 
     {{>footer}}
+
+    <script src="/js/app.js"></script> 
 </body>
 </html>

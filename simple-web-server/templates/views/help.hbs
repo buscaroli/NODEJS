@@ -4,8 +4,7 @@
     <title>Weather App</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script> 
+    <link rel="stylesheet" href="/css/styles.css"> 
 </head>
 <body>
     {{>navbar}}
@@ -14,8 +13,10 @@
     
     <div id='main'>
         <h4>{{helpText}}</h4>
-        <p>Work in progress, stay tuned!</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum ipsum hic consectetur expedita nesciunt officia ipsam at corrupti labore facere?</p>
+        <p>If you need to get the json version of the data, try using a query:</p>
+        <p> localhost:3000/weather?address=locationName .</p>
+        <p>Otherwise you can go back to the Home page by following this <a href="/">link</a> and you can navigate around until you find what you are looking for.</p>
+        
     </div>
     
     {{>footer}}

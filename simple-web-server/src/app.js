@@ -2,6 +2,8 @@
 const express = require('express');
 const hbs = require('hbs');
 const path = require('path');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 // Path to used directories
 const publicPath = path.join(__dirname, '../public');
@@ -22,7 +24,7 @@ app.use(express.static(publicPath));
 // Setting routes
 app.get('', (req, res) => {
     res.render('index', {
-        title: 'Weather App',
+        title: 'Weather Forecast',
         author: 'Matteo'
     });
 });
@@ -43,10 +45,43 @@ app.get('/help', (req, res) => {
 })
 
 app.get('/weather', (req, res) => {
-    res.send({
-        forecast: 'Sunny, 15C',
-        location: 'Bournemouth, England'
+    if (!req.query.address){
+        return res.send({
+            error: 'Address is required.'
+        });
+    }
+    
+    geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+        if (error) {
+            return res.send ({ error });
+        } 
+        forecast(latitude, longitude, (error, { temperature, wind_speed, uv_index }) => {
+
+            if (error) {
+                return res.send({ error });
+            } 
+            
+            res.send ({
+                location,
+                temperature: temperature,
+                wind_speed: wind_speed,
+                uv_index
+            });
+
+            // console.log('Location: ' + location + '.')
+            // console.log('Temperature: ' + temperature + ' C.');
+            // console.log('Wind Speed: ', + wind_speed + ' Km/h');
+            // console.log('UV Index: ' + uv_index);
+            
+            
+        });
+
+        
     });
+
+    
+        
+    
 });
 
 app.get('/help/*', (req, res) => {
