@@ -1,0 +1,15 @@
+{
+  "name": "simple-web-server",
+  "version": "1.0.0",
+  "description": "Simple Web Server develop to learn Express: to be interfaced with the weather-app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matteo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "hbs": "^4.1.1"
+  }
+}

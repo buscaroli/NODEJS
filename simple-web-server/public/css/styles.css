@@ -1,0 +1,67 @@
+* {
+    background: lightgray;
+    font-family: Georgia, Arial;
+    text-decoration: none;;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+h4 {
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 1.2em;
+}
+
+
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 800px;
+    margin: auto;
+}
+
+#main {
+    border-bottom: solid 1px black;
+    padding-bottom: 20px;
+}
+
+header {
+    justify-self: center;
+}
+
+footer {
+    font-size: 0.8em;
+    font-weight: bold;
+    justify-self: center;
+    
+}
+
+#navbar ul {
+
+    list-style-type: none;
+    font-size: 1.2em;
+    font-weight: bold;
+
+}
+
+#navbar ul li {
+    display: inline;
+    margin-right: 10px;
+    padding: 5px 5px 5px 0px;
+}
+
+#portrait img {
+    width: 200px;
+}
