@@ -4,7 +4,7 @@
   "description": "Simple Web Server develop to learn Express: to be interfaced with the weather-app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js"
   },
   "author": "Matteo",
   "license": "ISC",
