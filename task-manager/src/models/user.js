@@ -40,6 +40,8 @@ const userSchema = new mongoose.Schema({    // <- the object is passed directly 
            required: true 
         }    
     }]
+}, {
+    timestamps: true
 });
 
 // Creating a relationship between a User and its tasks

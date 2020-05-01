@@ -17,6 +17,8 @@ const taskSchema = new mongoose.Schema({
         required: true,
         ref: 'User'     // creating the association between the task and the User
     }
+}, {
+    timestamps: true
 });
 
 
