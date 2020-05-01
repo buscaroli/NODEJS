@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Task = require('../models/task'); // used in userSchema.pre('remove')
+
 
 const userSchema = new mongoose.Schema({    // <- the object is passed directly into the Schema
     name: {                                 // so we can add some functionality to our code.
@@ -40,6 +42,13 @@ const userSchema = new mongoose.Schema({    // <- the object is passed directly 
     }]
 });
 
+// Creating a relationship between a User and its tasks
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',    // where the local data is stored
+    foreignField: 'owner' // needs to be the field set in the Task Schema
+})
+
 // We are passing the event (in this case save) and we are telling the schema
 // to implement our functionality before the event (by using .pre).
 // NOTE You can't use an arrow function because of the different behaviour
@@ -56,7 +65,17 @@ userSchema.pre('save', async function(next) {
     }
     
     next();
-})
+});
+
+// Delete user tasks when user is deleted:
+userSchema.pre('remove', async function (next) {
+    const user = this;
+
+    await Task.deleteMany({ owner: user._id });
+
+    next();
+});
+
 
 // Adding statics and methods:
 // Schema Statics are methods that can be invoked directly by a Model (unlike Schema 
@@ -86,6 +105,25 @@ userSchema.statics.findByEmailAndPassword = async function (email, password) {
     return user;
 };
 
+
+// Adding a toJSON method in order to modify what properties of
+// the user are to be sent back (exposed).
+// The toJSON method is special as you don't have to call it from 
+// within the router.
+// I think we are changing the toJSON method in the prototype,
+// TO BE CONFIRMED.
+userSchema.methods.toJSON = function () {
+    const user = this;
+    const userObject = user.toObject();
+
+    delete userObject.password;
+    delete userObject.tokens;
+
+    return userObject;
+};
+
+
+// Adding a method to generate a token used for authorising access
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign({ _id: user._id.toString() }, 'mypassword');
