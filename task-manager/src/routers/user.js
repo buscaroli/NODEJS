@@ -2,6 +2,8 @@ const express = require('express');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
+const multer = require('multer');
+const sharp = require('sharp');
 
 const router = new express.Router();
 
@@ -104,5 +106,62 @@ router.delete('/users/me', auth, async (req, res) => {
     }
 });
 
+// Upload Profile Picture using multer (setup):
+const upload = multer({
+    // dest: 'avatars',     // removing the dest option makes multer pass the file data
+                            // to the function in the router so it can be used. No need
+                            // to save files in the HDD anymore, also consider that the 
+                            // way Heroku works, wipes out all the data everytime!
+    limits: {               
+        fileSize: 1024000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(png)$/)){
+            return cb(new Error('Wrong file type.'))
+        }
+        cb(undefined, true);
+    }
+});
+
+
+// Router for Uploading Avatar picture (using multer):
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+    //                                    // Before using sharp:
+    // req.user.avatar = req.file.buffer; //req.file.buffer contains the file. It is only 
+    //                                    // available when the dest option in multer is disabled.
+    const buffer = await sharp(req.file.buffer).resize({width: 240, height: 240}).png().toBuffer();
+    req.user.avatar = buffer;
+    await req.user.save();
+    res.send();
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+});
+
+// Router for Deleting avatar:
+router.delete('/users/me/avatar', auth, async (req, res) => {
+    
+    req.user.avatar = undefined;
+    await req.user.save();
+    res.send();
+    
+});
+
+
+// Serving the User's Avatar:
+router.get('/users/:id/avatar', async (req,res) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user || !user.avatar) {
+            throw new Error();
+        }
+        res.set('Content-Type', 'image/jpg');
+        res.send(user.avatar);
+
+    } catch(e) {
+        res.status(404).send();
+    }
+    
+});
 
 module.exports = router;
