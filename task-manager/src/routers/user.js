@@ -1,9 +1,10 @@
 const express = require('express');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
+const { sendWelcomeEmail, sendCancellationEmail } = require('../emails/account');
+
 
 const router = new express.Router();
 
@@ -13,11 +14,12 @@ router.post('/users', async (req, res) => {
 
     try {
         await user.save();
-        const token = await user.generateAuthToken();
-        res.status(201).send({ user, token });
-    } catch(e){
-        res.status(400).send(e);
-    }
+        sendWelcomeEmail(user.email, user.name);        // We are creating the user, we just created
+        const token = await user.generateAuthToken();   // the instance (user) and that's why we use
+        res.status(201).send({ user, token });          // user.email and user.name. If we deal with
+    } catch(e){                                         // a route where the user IS AUTHENTICATED
+        res.status(400).send(e);                        // we can access them via req.user.email and
+    }                                                   // req.user.name
 
 });
 
@@ -100,8 +102,9 @@ router.patch('/users/me', auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove();
-        res.send(req.user);
-    } catch(e) {
+        sendCancellationEmail(req.user.email, req.user.name); // Deleting the user require them to be
+        res.send(req.user);                                   // authenticated, so we can access them 
+    } catch(e) {                                              // via req.user.email and req.user.name
         res.status(500).send();
     }
 });
